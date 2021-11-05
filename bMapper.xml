@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "Board">
+	
+	<!-- 판매 게시글 -->
+	<select id="bListCount" resultType="int">
+		SELECT COUNT(*) FROM BOARDTWO WHERE TKIND = 1
+	</select>
+	
+	<select id="bList" parameterType="paging" resultType="board">
+		SELECT * FROM BLISTTWO WHERE RN BETWEEN #{startRow} AND #{endRow} AND TKIND = 1
+	</select>
+	
+	<select id="bList2"  resultType="board">
+		SELECT * FROM (SELECT * FROM BOARDTWO ORDER BY BDATE DESC) WHERE ROWNUM BETWEEN 1 AND 5 AND TKIND = 1
+	</select>
+	
+	 <select id="bList3"  parameterType="paging" resultType="board">
+		SELECT * FROM (SELECT * FROM BOARDTWO ORDER BY BHIT DESC) WHERE ROWNUM BETWEEN 1 AND 5 AND TKIND = 1
+	</select> 
+	
+	
+	<!-- 1  -->
+	<select id="b1ListCount" resultType="int">
+		SELECT COUNT(*) FROM BOARDTWO WHERE TKIND = 1 AND BCATE = 1
+	</select>
+	
+	<select id="b1List" parameterType="paging" resultType="board">
+		SELECT * FROM BLISTTWO WHERE RN BETWEEN #{startRow} AND #{endRow} AND TKIND = 1 AND BCATE = 1
+	</select>
+	
+	<select id="b1List2"  resultType="board">
+		SELECT * FROM (SELECT * FROM BOARDTWO ORDER BY BDATE DESC) WHERE ROWNUM BETWEEN 1 AND 5 AND TKIND = 1 AND BCATE = 1
+	</select>
+	
+	 <select id="b1List3"  parameterType="paging" resultType="board">
+		SELECT * FROM (SELECT * FROM BOARDTWO ORDER BY BHIT DESC) WHERE ROWNUM BETWEEN 1 AND 5 AND TKIND = 1 AND BCATE = 1
+	</select> 
+	
+		<!-- 2  -->
+	<select id="b2ListCount" resultType="int">
+		SELECT COUNT(*) FROM BOARDTWO WHERE TKIND = 1 AND BCATE = 2
+	</select>
+	
+	<select id="b2List" parameterType="paging" resultType="board">
+		SELECT * FROM BLISTTWO WHERE RN BETWEEN #{startRow} AND #{endRow} AND TKIND = 1 AND BCATE = 2
+	</select>
+	
+	<select id="b2List2"  resultType="board">
+		SELECT * FROM (SELECT * FROM BOARDTWO ORDER BY BDATE DESC) WHERE ROWNUM BETWEEN 1 AND 5 AND TKIND = 1 AND BCATE = 2
+	</select>
+	
+	 <select id="b2List3"  parameterType="paging" resultType="board">
+		SELECT * FROM (SELECT * FROM BOARDTWO ORDER BY BHIT DESC) WHERE ROWNUM BETWEEN 1 AND 5 AND TKIND = 1 AND BCATE = 2
+	</select> 
+	
+		<!-- 3  -->
+	<select id="b3ListCount" resultType="int">
+		SELECT COUNT(*) FROM BOARDTWO WHERE TKIND = 1 AND BCATE = 3
+	</select>
+	
+	<select id="b3List" parameterType="paging" resultType="board">
+		SELECT * FROM BLISTTWO WHERE RN BETWEEN #{startRow} AND #{endRow} AND TKIND = 1 AND BCATE = 3
+	</select>
+	
+	<select id="b3List2"  resultType="board">
+		SELECT * FROM (SELECT * FROM BOARDTWO ORDER BY BDATE DESC) WHERE ROWNUM BETWEEN 1 AND 5 AND TKIND = 1 AND BCATE = 3
+	</select>
+	
+	 <select id="b3List3"  parameterType="paging" resultType="board">
+		SELECT * FROM (SELECT * FROM BOARDTWO ORDER BY BHIT DESC) WHERE ROWNUM BETWEEN 1 AND 5 AND TKIND = 1 AND BCATE = 3
+	</select> 
+	
+	
+			<!-- 4  -->
+	<select id="b4ListCount" resultType="int">
+		SELECT COUNT(*) FROM BOARDTWO WHERE TKIND = 1 AND BCATE = 4
+	</select>
+	
+	<select id="b4List" parameterType="paging" resultType="board">
+		SELECT * FROM BLISTTWO WHERE RN BETWEEN #{startRow} AND #{endRow} AND TKIND = 1 AND BCATE = 4
+	</select>
+	
+	<select id="b4List2"  resultType="board">
+		SELECT * FROM (SELECT * FROM BOARDTWO ORDER BY BDATE DESC) WHERE ROWNUM BETWEEN 1 AND 5 AND TKIND = 1 AND BCATE = 4
+	</select>
+	
+	 <select id="b4List3"  parameterType="paging" resultType="board">
+		SELECT * FROM (SELECT * FROM BOARDTWO ORDER BY BHIT DESC) WHERE ROWNUM BETWEEN 1 AND 5 AND TKIND = 1 AND BCATE = 4
+	</select> 
+	
+
+	
+	<!-- 커뮤니티 게시글 -->
+	<select id="cListCount" resultType="int">
+		SELECT COUNT(*) FROM BOARDTWO WHERE TKIND = 0
+	</select>
+	
+	<select id="cList" parameterType="paging" resultType="board">
+		SELECT * FROM BLISTTWO WHERE RN BETWEEN #{startRow} AND #{endRow} AND TKIND = 0
+	</select>
+	
+	<!-- 글작성 -->
+	<insert id="bWrite" parameterType="board">
+	INSERT INTO BOARDTWO
+	VALUES(BNO_SEQ1.NEXTVAL,#{BTitle},#{BWriter},#{BFileName},#{BContent},#{BDate},0,#{TKind1},#{BPrice},#{BCate})
+	</insert>
+	
+	<insert id="cWrite" parameterType="board">
+	INSERT INTO BOARDTWO
+	VALUES(BNO_SEQ1.NEXTVAL,#{BTitle},#{BWriter},#{BFileName},#{BContent},#{BDate},0,#{TKind1},0,0)
+	</insert>
+
+
+	<select id="bView" parameterType="int" resultType="board">
+	SELECT * FROM BOARDTWO WHERE BNO=#{BNo}
+	</select>
+	
+	<update id="bHit">
+	UPDATE BOARDTWO SET BHIT = BHIT + 1 WHERE BNO=#{BNo}
+	</update>
+	
+	<select id="dList" parameterType="int" resultType="comment">
+	SELECT * FROM COMTWO WHERE CBNO=#{CBNo} ORDER BY CNO DESC
+	</select>
+	
+	<insert id="dWrite" parameterType="comment">
+	INSERT INTO COMTWO VALUES(CMT_SEQ1.NEXTVAL, #{CBNo}, #{CWriter}, #{CContent})
+	</insert>
+	
+	<delete id="dDelete" parameterType="comment">
+	DELETE FROM COMTWO WHERE CNO=#{CNo}
+	</delete>
+	
+	<select id="cView" parameterType="int" resultType="board">
+	SELECT * FROM BOARDTWO WHERE BNO=#{BNo}
+	</select>
+	
+	<update id="bModify" parameterType="board">
+	UPDATE BOARDTWO SET BTITLE=#{BTitle}, BCONTENT=#{BContent}, BFILENAME=#{BFileName}, BPRICE=#{BPrice} 
+	WHERE BNO=#{BNo}
+	</update>
+	
+
+	
+	<delete	id="bDelete" parameterType="int">
+	DELETE FROM BOARDTWO WHERE BNO=#{BNo}
+	</delete>
+	
+	<select id="emialsearch" parameterType="String" resultType="String">
+		SELECT MEMAIL FROM MEMBERTWO WHERE MID=#{BWRITER}
+	</select>	
+	
+	<select id="csWriter" parameterType="String" resultType="board">
+	SELECT * FROM BOARDTWO WHERE TKIND = 0 AND BWRITER LIKE '%'||#{keyword}||'%' ORDER BY BNO DESC
+	</select>
+	
+	<select id="csTitle" parameterType="String" resultType="board">
+	SELECT * FROM BOARDTWO WHERE TKIND = 0 AND BTITLE LIKE '%'||#{keyword}||'%' ORDER BY BNO DESC
+	</select>
+	
+		<select id="csContent" parameterType="String" resultType="board">
+	SELECT * FROM BOARDTWO WHERE TKIND = 0 AND BCONTENT LIKE '%'||#{keyword}||'%' ORDER BY BNO DESC
+	</select>
+	
+		<!-- 검색 -->
+	<select id="bsWriter" parameterType="String" resultType="board">
+		SELECT * FROM BOARDTWO WHERE TKIND = 1 AND BWRITER LIKE '%'||#{keyword}||'%' ORDER BY BNO DESC
+	</select>
+	
+	<select id="bsTitle" parameterType="String" resultType="board">
+		SELECT * FROM BOARDTWO WHERE TKIND = 1 AND BTITLE LIKE '%'||#{keyword}||'%' ORDER BY BNO DESC
+	</select>
+	
+	<select id="bsContent" parameterType="String" resultType="board">
+		SELECT * FROM BOARDTWO WHERE TKIND = 1 AND BCONTENT LIKE '%'||#{keyword}||'%' ORDER BY BNO DESC
+	</select>
+
+	<!-- 검색리스트 -->
+	<select id="bsListCount" resultType="int">
+		SELECT COUNT(*) FROM BOARDTWO WHERE #{selectVal} LIKE '%'||#{keyword}||'%' ORDER BY BNO DESC
+	</select>
+	
+	<select id="bsList" parameterType="paging" resultType="board">
+		SELECT * FROM BLISTTWO WHERE #{selectVal} LIKE '%'||#{keyword}||'%' RN BETWEEN #{startRow} AND #{endRow} AND TKIND = 1
+	</select>
+	
+	<select id="mbList" parameterType="String"  resultType="board" >
+		SELECT *FROM BOARDTWO WHERE BWRITER = #{MId}
+	</select>
+
+
+</mapper>
